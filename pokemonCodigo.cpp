@@ -1,8 +1,13 @@
 #include <iostream>
 #include <string>
+#include <fstream>
 
 using namespace std;
 
+string historial[100];
+int totalPartidas = 0;
+int Victorias = 0;
+char verHistorial;
 int vidaPokemon = 100;
 int vidaPokemonRival = 100;
 string nombreEntrenador;
@@ -192,7 +197,56 @@ int main () {
         cout << "Felicidades, has ganado la batalla." << endl;
     }
 
-    do{
+ofstream archivo("historial.txt", ios::app);
+
+string resultado;
+
+if (vidaPokemon > 0){
+    resultado = "Gano";
+    Victorias++;
+}
+else{
+    resultado = "Perdio";
+}
+
+
+archivo  << "Entrenador: " << nombreEntrenador
+        << " | Pokemon: " << pokemonSeleccionadoTexto
+        << " | Resultado: " << resultado << endl;
+
+archivo.close();
+
+cout << endl;
+cout << "Desea ver el historial? (S/N): ";
+cin >> verHistorial;
+
+if(verHistorial == 'S' || verHistorial == 's'){
+
+    ifstream leerArchivo("historial.txt");
+
+    totalPartidas = 0;
+
+    while(getline(leerArchivo, historial[totalPartidas])){
+        totalPartidas++;
+    }
+
+    leerArchivo.close();
+
+    cout << endl;
+    cout << "========= HISTORIAL =========" << endl;
+
+    for(int i=0;i<totalPartidas;i++){
+        cout << historial[i] << endl;
+    }
+
+    cout << "=============================" << endl;
+    
+}
+
+cout << endl;
+cout << "Victorias obtenidas: "<< Victorias << endl;
+    
+do{
 
     cout<<"Desea volver a jugar?"<<endl;
     cout<<"1. Si"<<endl;
